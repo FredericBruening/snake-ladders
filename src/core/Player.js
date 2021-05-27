@@ -1,11 +1,10 @@
 class Player {
 
-    constructor(number) {
-        this.number = number
+    constructor() {
         this.position = 0
         this.bonus = false
     }
 
 }
 
-export default Player
+export default Player 
