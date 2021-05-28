@@ -138,6 +138,7 @@ describe('game logic of a 3x4 game with snakes and ladders', () => {
 
         game.play(0, snake[0])
 
+        
         expect(game.players.get(0).position).to.be.equal(snake[1])
     })
 })

@@ -37,10 +37,22 @@ describe('Board logic of 3x4 with ladders and snakes', () => {
     it('generates a random snake', () => {
         const board = new Board(3, 4, Levels.NONE)
 
-        // for (let index = 0; index < 30; index++) {
-        //     let ladder = board.generateLadder()
-        //     expect(ladder[0]).to.be.lessThan(ladder[1])
-        //     expect(Math.ceil(ladder[0] / board.width)).to.be.lessThan(Math.abs(ladder[1] / board.width))
-        // }
+        for (let index = 0; index < 30; index++) {
+            let snake = board.generateSnake()
+            expect(snake[0]).to.be.greaterThan(snake[1])
+            expect(Math.ceil(snake[0] / board.width)).to.be.greaterThan(Math.abs(snake[1] / board.width))
+        }
+
+    })
+
+    it('generates ladders and snakes without overlapping', () => {
+        const board = new Board(3, 4, Levels.EASY)
+        const obstaclesPoints = board.obstacles.reduce((points, obstacle) => { 
+            points.push(obstacle[0], obstacle[1])
+
+            return points
+        }, [])
+
+        expect(new Set(obstaclesPoints).size).to.be.equal(obstaclesPoints.length)
     })
 })
