@@ -1,46 +1,76 @@
+const random = (min, max) => Math.floor(Math.random() * (max - min)) + min
+
 class Board {
 
     constructor(width, height, level) {
         this.width = width
         this.height = height
-        this.ladders = []
-        this.snakes = []
+        this.obstacles = []
 
-        this.generateLadders(level)
+        this.generateObstacles(level)
     }
 
+    /**
+     * Computes the size of the board
+     * 
+     * @returns The board size
+     */
     size() {
         return this.width * this.height
     }
 
-    generateLadders(level) {
+    /**
+     * Generates the snakes and ladders
+     * 
+     */
+    generateObstacles(level) {
         switch (level) {
             case 1:
-                this.ladders[0] = [2, 5]
-                this.ladders[1] = [3, 6]
-                this.ladders[2] = [4, 8]
-                this.snakes[0] = [7, 1]
+                this.obstacles[0] = [2, 5]
+                this.obstacles[1] = [3, 6]
+                this.obstacles[2] = [4, 8]
+                this.obstacles[3] = [7, 1]
                 break;
             case 2:
-                this.ladders[0] = [2, 5]
-                this.ladders[1] = [3, 6]
-                this.snakes[0] = [8, 4]
-                this.snakes[1] = [7, 1]
+                this.obstacles[0] = [2, 5]
+                this.obstacles[1] = [3, 6]
+                this.obstacles[2] = [8, 4]
+                this.obstacles[3] = [7, 1]
                 break;
             case 3:
-                this.ladders[0] = [2, 5]
-                this.snakes[0] = [6, 3]
-                this.snakes[1] = [8, 4]
-                this.snakes[2] = [7, 1]
+                this.obstacles[0] = [2, 5]
+                this.obstacles[1] = [6, 3]
+                this.obstacles[2] = [8, 4]
+                this.obstacles[3] = [7, 1]
                 break;
         }
     }
 
-    getLadder(index) {
-        const ladderStarts = this.ladders.map(ladder => ladder[0])
-        const ladderIndex = ladderStarts.indexOf(index)
+    /**
+     * Returns the obstacle at given position in the board
+     * 
+     * @returns Obstacle Array
+     */
+    getObstacle(index) {
+        const obstacleStarts = this.obstacles.map(obstacle => obstacle[0])
+        const obstacleIndex = obstacleStarts.indexOf(index)
 
-        return  ladderIndex < 0 ? null : this.ladders[ladderIndex]
+        return obstacleIndex < 0 ? null : this.obstacles[obstacleIndex]
+    }
+
+    getLadders() {
+        return this.obstacles.filter(obstacle => obstacle[0] < obstacle[1])
+    }
+
+    getSnakes() {
+        return this.obstacles.filter(obstacle => obstacle[0] > obstacle[1])
+    }
+
+    generateLadder() {
+        const START = random(2, this.size() - this.width)
+        const END = random(Math.ceil(START / this.width) * this.width + 1, this.size())
+
+        return [START, END]
     }
 }
 

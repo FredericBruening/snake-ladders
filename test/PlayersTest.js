@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import Players from '../src/core/Players';
 
-xdescribe('a player iterator', () => {
+describe('a player iterator', () => {
     let players
 
     beforeEach(() => {

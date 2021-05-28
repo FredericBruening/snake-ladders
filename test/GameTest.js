@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { Game, Levels } from '../src/core/Game';
 
-xdescribe('game logic of a 3x4 game without ladders or snakes', () => {
+describe('game logic of a 3x4 game without ladders or snakes', () => {
     let game;
 
     beforeEach(() => {
@@ -85,7 +85,7 @@ xdescribe('game logic of a 3x4 game without ladders or snakes', () => {
 
 })
 
-xdescribe('game logic of a 3x4 game without ladders or snakes and multiple players', () => {
+describe('game logic of a 3x4 game without ladders or snakes and multiple players', () => {
     it('keeps the game running while no player lands on the top square with 3 players', () => {
         let game = new Game(3, 4, 3)
 
@@ -123,14 +123,21 @@ describe('game logic of a 3x4 game with snakes and ladders', () => {
     beforeEach(() => game = new Game(3, 4, 2, Levels.EASY))
 
     it('takes you to the the top of the ladder', () => {
-        game.play(0, game.board.ladders[0][0]) // player 1
-        game.play(0, game.board.ladders[1][0]) // player 2
+        const ladder1 = game.board.getLadders()[0]
+        const ladder2 = game.board.getLadders()[1]
+        game.play(0, ladder1[0]) // player 1
+        game.play(0, ladder2[0]) // player 2
 
-        expect(game.players.get(0).position).to.be.equal(game.board.ladders[0][1])
-        expect(game.players.get(1).position).to.be.equal(game.board.ladders[1][1])
+        expect(game.players.get(0).position).to.be.equal(ladder1[1])
+        expect(game.players.get(1).position).to.be.equal(ladder2[1])
     })
 
-    xit('', () => {
+    
+    it('takes you to the bottom of the snake', () => {
+        const snake = game.board.getSnakes()[0]
 
+        game.play(0, snake[0])
+
+        expect(game.players.get(0).position).to.be.equal(snake[1])
     })
 })

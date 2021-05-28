@@ -22,36 +22,42 @@ class Game {
     }
 
     play(die1, die2) {
-        if (Date.now() > this.createdAt.setMilliseconds(this.maxTime)) {
+        if (this.maximunGameTimeElapsed()) {
             this.over = true
 
             throw new Error('Game is over')
         }
 
-        const newPosition = this.players.current().position + (die1 + die2)
+        const player = this.players.current()
 
-        if (newPosition < this.board.size()) {
-            this.players.current().position = newPosition
-        } else {
-            this.players.current().position = (this.board.size() * 2) - newPosition
+        player.position = player.position + (die1 + die2)
+
+        // if player is outside the board, bounce back
+        if (player.position > this.board.size()) {
+            player.position = (this.board.size() * 2) - player.position
         }
 
-        let ladder = this.board.getLadder(this.players.current().position)
+        // obstacles
+        const obstacle = this.board.getObstacle(player.position)
+        player.position = obstacle ? obstacle[1] : player.position
 
-        if (this.board.ladders.length > 0 && ladder) {
-            this.players.current().position = ladder[1]
-        }
-        
-        this.over = this.players.current().position === 12 ? true : false
-        this.winner = this.over ? this.players.current() : null
-  
-        if(die1 === die2 && ! this.players.current().bonus) {
-            this.players.current().bonus = true
-        } else if(this.players.current().bonus) {
-            this.players.current().bonus = false
-        }
+        // check for bonus
+        player.bonus = player.bonus ? false : die1 === die2
 
-        if(!this.players.current().bonus) this.players.next()
+        this.checkGameStatus()
+
+        if (!player.bonus) this.players.next()
+    }
+
+    checkGameStatus() {
+        if (this.players.current().position === this.board.size()) {
+            this.over = true
+            this.winner = this.players.current()
+        }
+    }
+
+    maximunGameTimeElapsed() {
+        return Date.now() > this.createdAt.setMilliseconds(this.maxTime)
     }
 }
 
