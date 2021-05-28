@@ -27,7 +27,8 @@
         "mocha": "^8.3.2"
     },
     "dependencies": {
-        "immutable": "^4.0.0-rc.12"
+        "immutable": "^4.0.0-rc.12",
+        "lodash": "^4.17.21"
     },
     "babel": {
         "presets": [
