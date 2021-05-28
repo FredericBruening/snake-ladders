@@ -22,7 +22,7 @@ class Game {
     }
 
     play(die1, die2) {
-        if (this.maximunGameTimeElapsed()) {
+        if (this.maximunGameTimeElapsed() || this.over) {
             this.over = true
 
             throw new Error('Game is over')

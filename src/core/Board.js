@@ -73,7 +73,7 @@ class Board {
      */
     generateLadder() {
         const START = random(2, this.size() - this.width)
-        const END = random(Math.ceil(START / this.width) * this.width + 1, this.size())
+        const END = random(Math.ceil(START / this.width) * this.width + 1, this.size() - 1)
 
         if (this.obstacles.length > 0 && (flatten(this.obstacles).includes(START) || flatten(this.obstacles).includes(END))) {
             return this.generateLadder()

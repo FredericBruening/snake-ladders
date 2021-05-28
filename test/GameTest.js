@@ -138,7 +138,13 @@ describe('game logic of a 3x4 game with snakes and ladders', () => {
 
         game.play(0, snake[0])
 
-        
         expect(game.players.get(0).position).to.be.equal(snake[1])
+    })
+
+    it('lets the player win even if he rolled a double', () => {
+        game.play(6, 6)
+        
+        expect(game.winner).is.equal(game.players.get(0))
+        expect(() => game.play(1, 1)).to.throw('Game is over')
     })
 })
