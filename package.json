@@ -4,8 +4,11 @@
     "description": "Players\t2 or more Playing time\t15–45 minutes",
     "main": "index.js",
     "scripts": {
-        "test": "./node_modules/mocha/bin/mocha --require babel-core/register --require ./test/test_helper.js --recursive",
-        "test:watch": "npm run test -- --watch"
+        "test": "./node_modules/mocha/bin/mocha --require @babel/register --require ./test/test_helper.js --recursive",
+        "test:watch": "npm run test -- --watch",
+        "watch": "npx mix watch",
+        "hot": "npx mix watch --hot",
+        "production": "npx mix --production"
     },
     "repository": {
         "type": "git",
@@ -19,20 +22,26 @@
     },
     "homepage": "https://github.com/FredericBruening/snake-ladders#readme",
     "devDependencies": {
-        "babel-cli": "^6.26.0",
-        "babel-core": "^6.26.3",
-        "babel-preset-es2015": "^6.24.1",
+        "@babel/cli": "^7.14.3",
+        "@babel/core": "^7.14.3",
+        "@babel/preset-env": "^7.14.2",
+        "@babel/register": "^7.13.16",
+        "browser-sync": "^2.26.14",
+        "browser-sync-webpack-plugin": "^2.3.0",
         "chai": "^4.3.4",
         "chai-immutable": "^2.1.0",
-        "mocha": "^8.3.2"
+        "laravel-mix": "^6.0.19",
+        "mocha": "^8.3.2",
+        "postcss": "^8.3.0"
     },
     "dependencies": {
         "immutable": "^4.0.0-rc.12",
-        "lodash": "^4.17.21"
+        "lodash": "^4.17.21",
+        "p5": "^1.3.1"
     },
     "babel": {
         "presets": [
-            "es2015"
+            "@babel/preset-env"
         ]
     }
 }
