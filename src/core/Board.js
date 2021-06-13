@@ -1,4 +1,4 @@
-import { random, range, flatten } from 'lodash'
+import { random, range, flatten, chunk } from 'lodash'
 
 class Board {
 
@@ -6,8 +6,14 @@ class Board {
         this.width = width
         this.height = height
         this.obstacles = []
+        this.elements = this.generateBoard()
 
         this.generateObstacles(level)
+        this.elements = this.elements.map((el, index) => {
+            el.obstacles = this.getObstacle(index)
+
+            return el
+        })
     }
 
     /**
@@ -37,7 +43,7 @@ class Board {
             case 3:
                 range(3).forEach(i => this.obstacles.push(this.generateSnake()))
                 this.obstacles.push(this.generateLadder())
-                
+
                 break;
         }
     }
@@ -78,7 +84,7 @@ class Board {
         if (this.obstacles.length > 0 && (flatten(this.obstacles).includes(START) || flatten(this.obstacles).includes(END))) {
             return this.generateLadder()
         }
-        
+
         return [START, END]
     }
 
@@ -92,8 +98,39 @@ class Board {
         if (this.obstacles.length > 0 && (flatten(this.obstacles).includes(START) || flatten(this.obstacles).includes(END))) {
             return this.generateSnake()
         }
-        
+
         return [START, END]
+    }
+
+    generateBoard() {
+        let board = chunk(range(this.size(), 0), this.width)
+        const widthPerElement = 900 / this.width
+        board.forEach((el, index) => {
+            if (index % 2 !== 0) {
+                el.reverse()
+            }
+        })
+        board.forEach((row, indexY) => {
+            row[0] = {
+                number: row[0],
+                position: {
+                    x: 0,
+                    y: indexY * widthPerElement
+                }
+            }
+
+            for (let index = 1; index < row.length; index++) {
+                row[index] = {
+                    number: row[index],
+                    position: {
+                        x: row[index - 1].position.x + widthPerElement,
+                        y: indexY * widthPerElement
+                    }
+                }
+            }
+        })
+
+        return flatten(board)
     }
 }
 

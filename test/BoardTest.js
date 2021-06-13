@@ -47,12 +47,31 @@ describe('Board logic of 3x4 with ladders and snakes', () => {
 
     it('generates ladders and snakes without overlapping', () => {
         const board = new Board(3, 4, Levels.EASY)
-        const obstaclesPoints = board.obstacles.reduce((points, obstacle) => { 
+        const obstaclesPoints = board.obstacles.reduce((points, obstacle) => {
             points.push(obstacle[0], obstacle[1])
 
             return points
         }, [])
 
         expect(new Set(obstaclesPoints).size).to.be.equal(obstaclesPoints.length)
+    })
+
+    it('generates a snake like board', () => {
+        const board = new Board(3, 4)
+
+        expect(board.elements).to.be.deep.equal([
+            { number: 12, position: { x: 0, y: 0 }, obstacles: null },
+            { number: 11, position: { x: 300, y: 0 }, obstacles: null },
+            { number: 10, position: { x: 600, y: 0 }, obstacles: null },
+            { number: 7, position: { x: 0, y: 300 }, obstacles: null },
+            { number: 8, position: { x: 300, y: 300 }, obstacles: null },
+            { number: 9, position: { x: 600, y: 300 }, obstacles: null },
+            { number: 6, position: { x: 0, y: 600 }, obstacles: null },
+            { number: 5, position: { x: 300, y: 600 }, obstacles: null },
+            { number: 4, position: { x: 600, y: 600 }, obstacles: null },
+            { number: 1, position: { x: 0, y: 900 }, obstacles: null },
+            { number: 2, position: { x: 300, y: 900 }, obstacles: null },
+            { number: 3, position: { x: 600, y: 900 }, obstacles: null },
+        ])
     })
 })
